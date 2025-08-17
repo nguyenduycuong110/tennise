@@ -1,0 +1,122 @@
+/* VARIABLES */
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+:root {
+    --primary-color: #da251c;
+    --secondary-color: #0A3612;
+    --third-color: #FEE9B5;
+    --hover-color:#fc746c;
+    --second-font: 'Asap';
+    --third-font: 'Bai Jamjuree';
+}
+
+body{
+    font-family: 'Bai Jamjuree', sans-serif;
+    min-height: 1000px;
+}
+
+/* OVERRIDE */
+@media (min-width: 1220px){
+    .uk-container{
+        max-width: 1320px;
+        padding:0;
+    }
+}
+
+a{
+    color:#000;
+}
+
+ul li,ol li{
+    list-style: none;
+}
+
+
+.page{
+    padding:30px 0;
+}
+
+
+
+.review-star .fa{
+    margin-right:3px;
+}
+.star-rating {
+    font-size: 18px;
+    display: inline-block;
+    position: relative;
+}
+
+.stars::before {
+    content: "★★★★★";
+    letter-spacing: 3px; /* Khoảng cách giữa các ngôi sao */
+    color: #ccc; /* Màu của ngôi sao trắng */
+}
+
+.stars::after {
+    content: "★★★★★";
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: gold; /* Màu của ngôi sao đầy đủ */
+    width: var(--star-width); /* Sử dụng biến CSS để đặt giá trị width */
+    letter-spacing: 3px;
+}
+
+.button-style {
+    -webkit-appearance: none;
+    background: -webkit-gradient(to right,#30904f 0,#80770d 50%,#30904f 100%);
+    background: linear-gradient(90deg, #30904f 0, #80770d 50%, #30904f);
+    background-size: 500%;
+    border: none;
+    border-radius: 5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
+    color: #fff;
+    cursor: pointer;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.readmore {
+    background-color: #064d1d;
+    border-color: #064d1d;
+    color: #fff;
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: .85em;
+    line-height: 1.8em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 3px #00000036;
+}
+
+.button-style:hover {
+    background-color: rgba(6, 77, 29, .8);
+    border-color: rgba(6, 77, 29, .8);
+    box-shadow: 0 3px 5px #00000036;
+    animation-name: a;
+    -webkit-animation-name: a;
+    animation-duration: 2s;
+    -webkit-animation-duration: s;
+    animation-iteration-count: 1;
+    -webkit-animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+}
+
+
+@keyframes a {
+	0% {
+		background-position: 0 50%;
+	}
+	100% {
+		background-position: 100%;
+	}
+}
+
+/* MAIN CSS WEBSITE */
