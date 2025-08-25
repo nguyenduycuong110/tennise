@@ -46,24 +46,22 @@ class HomeController extends FrontendController
     public function index()
     {
         $config = $this->config();
+
         $widgets = $this->widgetService->getWidget([
-            ['keyword' => 'cate-home-product', 'object' => true],
-            ['keyword' => 'feature-product', 'object' => true, 'children' => true],
-            ['keyword' => 'post', 'object' => true, 'children' => true],
-            ['keyword' => 'video', 'object' => true],
-            ['keyword' => 'news', 'object' => true, 'children' => true],
-            ['keyword' => 'customer-banner', 'object' => true],
-            ['keyword' => 'history', 'object' => true],
-            ['keyword' => 'intro'],
+            ['keyword' => 'product-catalogue', 'object' => true],
+            ['keyword' => 'best-selling-course', 'object' => true, 'promotion' => true],
+            ['keyword' => 'new-course-launch', 'object' => true, 'promotion' => true],
+            ['keyword' => 'news', 'object' => true],
+            ['keyword' => 'videos', 'object' => true],
         ], $this->language);
 
-
-
         $slides = $this->slideService->getSlide(
-            [SlideEnum::BANNER, SlideEnum::MAIN, 'mobile-slide', 'banner-1', 'banner-2', 'banner-3', 'brand-baochi', 'background-banner'],
+            [SlideEnum::MAIN, SlideEnum::TECHSTAFF, SlideEnum::PARTNER],
             $this->language
         );
+
         $system = $this->system;
+
         $seo = [
             'meta_title' => $this->system['seo_meta_title'],
             'meta_keyword' => $this->system['seo_meta_keyword'],
@@ -79,6 +77,7 @@ class HomeController extends FrontendController
         $ishome = true;
 
         $template = 'frontend.homepage.home.index';
+
         return view($template, compact(
             'config',
             'slides',
@@ -123,7 +122,6 @@ class HomeController extends FrontendController
 
         return $schema;
     }
-
 
     private function config()
     {

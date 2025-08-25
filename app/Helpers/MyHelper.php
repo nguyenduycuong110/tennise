@@ -110,7 +110,7 @@ if(!function_exists('getPrice')){
             }
         }
         $result['html'] .= '<div class="price uk-flex uk-flex-middle mt10">';
-            $result['html'] .= '<div class="price-sale">'.(($result['priceSale'] > 0) ? convert_price($result['priceSale'], true) : convert_price($result['price'], true) ).'đ</div>';
+            $result['html'] .= '<div class="price-sale">'.(($result['priceSale'] > 0) ? convert_price($result['priceSale'], true) : convert_price($result['price'], true) ).'<span class="currency">₫</span></div>';
             if($result['priceSale'] > 0){
                 $result['html'] .= '<div class="price-old uk-flex uk-flex-middle">'.convert_price($result['price'], true).'đ <div class="percent"><div class="percent-value">-'.$result['percent'].'%</div></div></div>';
                 
@@ -158,7 +158,6 @@ if(!function_exists('getReview')){
         $totalReviews = $product->reviews()->count();
         $totalRate = number_format($product->reviews()->avg('score'), 1);
         $starPercent = ($totalReviews == 0) ? '0' : $totalRate/5*100;
-    
 
         return [
             'star' => $starPercent,
@@ -329,7 +328,7 @@ if(!function_exists('frontend_recursive_menu')){
                     $ulClass = ($count >= 1) ? 'menu-level__'.($count + 1) : '';
                     $html .= '<li class="'.(($count == 1 && count($val['children'])) ? 'children' : '').'">';
                         $html .= '<a href="'.(($name == 'Trang chủ') ? '.' : $canonical).'" title="'.$name.'" data-menu-id="'.$val['item']->id.'">'.
-                        (($name == 'Trang chủ') ? '<i class="fa fa-home"></i> ' : '').$name.'</a>';
+                        (($name == 'Trang chủ') ? '' : '').$name.'</a>';
                         if(count($val['children'])){
                             $html .= '<div class="dropdown-menu">';
                                 $html .= '<ul class="uk-list uk-clearfix menu-style '.$ulClass.'">';

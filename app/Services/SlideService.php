@@ -37,8 +37,6 @@ class SlideService extends BaseService implements SlideServiceInterface
             ['path' => 'slide/index'], 
         );
         
-        // dd($slides);
-
         
         return $slides;
     }
@@ -130,7 +128,6 @@ class SlideService extends BaseService implements SlideServiceInterface
     public function converSlideArray(array $slide = []): array{
         $temp = [];
         $fields = ['image', 'description', 'window','canonical','name','alt'];
-        // dd($slide);
         foreach($slide as $key => $val){
             foreach($fields as $field){
                 $temp[$field][] = $val[$field];
@@ -147,12 +144,14 @@ class SlideService extends BaseService implements SlideServiceInterface
             'item',
             'publish',
         ];
-    }
+    }                       
 
     public function getSlide($array = [], $language = 1){
         $slides = $this->slideRepository->findByCondition(...$this->getSlideAgrument($array));
         $temp = [];
         foreach($slides as $key => $val){
+            $temp[$val->keyword]['name'] = $val->name;
+            $temp[$val->keyword]['short_code'] = $val->short_code;
             $temp[$val->keyword]['item'] = $val->item[$language];
             $temp[$val->keyword]['setting'] = $val->setting;
         }

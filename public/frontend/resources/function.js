@@ -676,8 +676,165 @@
         })
     }
 
+    HT.renderProductFromProductCatalogue = () => {
+        $(document).on('click','.filter-category li', function(e){
+			e.preventDefault()
+			let _this = $(this)
+            $('.panel-new-course .btn').hide()
+            $('.filter-category li').removeClass('active');
+            _this.addClass('active')
+            if(_this.hasClass('all')){
+                $('.panel-new-course .panel-body').hide()
+                $('.panel-new-course .btn').show()
+                $('.panel-new-course .all-pd').show()
+                return;
+            }
+            let option = {
+                product_catalogue_id : _this.data('product-catalogue-id')
+            }
+            $.ajax({
+                url: 'ajax/dashboard/findProductObject', 
+                type: 'GET', 
+                data: option,
+                dataType: 'json', 
+                success: function(res){
+                    $('.panel-new-course .panel-body').hide()
+                    $('.panel-new-course .uk-container').append(res.html)
+                },
+                beforeSend: function(){
+
+                },
+            });
+		})
+	}
+
+    HT.techStaff = () => {
+        var swiper = new Swiper(".panel-tech-staff .swiper-container", {
+			loop: false,
+			pagination: {
+				el: '.swiper-pagination',
+			},
+			spaceBetween: 25,
+			slidesPerView: 2,
+			breakpoints: {
+				315: {
+					slidesPerView: 1,
+				},
+				500: {
+				  slidesPerView: 2,
+				},
+				768: {
+				  slidesPerView: 3,
+				},
+				1280: {
+					slidesPerView: 4,
+				}
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			
+		});
+    }
+
+    HT.video = () => {
+        var swiper = new Swiper(".videos .swiper-container", {
+			loop: false,
+			pagination: {
+				el: '.swiper-pagination',
+			},
+			spaceBetween: 25,
+			slidesPerView: 2,
+			breakpoints: {
+				315: {
+					slidesPerView: 1,
+				},
+				500: {
+				  slidesPerView: 2,
+				},
+				768: {
+				  slidesPerView: 3,
+				},
+				1280: {
+					slidesPerView: 1,
+				}
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			
+		});
+    }
+
+    HT.partner = () => {
+        var swiper = new Swiper(".panel-partner .swiper-container", {
+			loop: false,
+			pagination: {
+				el: '.swiper-pagination',
+			},
+			spaceBetween: 30,
+			slidesPerView: 2,
+			breakpoints: {
+				315: {
+					slidesPerView: 1,
+				},
+				500: {
+				  slidesPerView: 2,
+				},
+				768: {
+				  slidesPerView: 3,
+				},
+				1280: {
+					slidesPerView: 6,
+				}
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			
+		});
+    }
+
+    HT.whyChoose = () => {
+        var swiper = new Swiper(".panel-why-choose .swiper-container", {
+			loop: false,
+			pagination: {
+				el: '.swiper-pagination',
+			},
+			spaceBetween: 45,
+			slidesPerView: 2,
+			breakpoints: {
+				315: {
+					slidesPerView: 1,
+				},
+				500: {
+				  slidesPerView: 2,
+				},
+				768: {
+				  slidesPerView:2,
+				},
+				1280: {
+					slidesPerView: 3
+                }
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			
+		});
+    }
+
 
 	$(document).ready(function(){
+        HT.whyChoose()
+        HT.partner()
+        HT.video()
+        HT.techStaff ()
+        HT.renderProductFromProductCatalogue ()
         HT.loadProject();
         HT.popupSwiperSlide();
         HT.highlightTocOnScroll();
@@ -694,9 +851,7 @@
 		
 		/* CORE JS */
         HT.swiper()
-		// HT.manualSlide()
 		HT.niceSelect()		
-		// HT.carousel()
 		HT.select2()
 		HT.loadDistribution()
 		HT.wrapTable()

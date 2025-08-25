@@ -24,6 +24,8 @@ use App\Http\Controllers\Backend\Promotion\PromotionController;
 use App\Http\Controllers\Backend\ReviewController;
 use App\Http\Controllers\Backend\VoucherController;
 use App\Http\Controllers\Backend\ContactController;
+use App\Http\Controllers\Backend\LecturerController;
+use App\Http\Controllers\Backend\IntroduceController;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\AttributeController as AjaxAttributeController;
 use App\Http\Controllers\Ajax\MenuController as AjaxMenuController;
@@ -88,6 +90,7 @@ Route::get('/ajax/projects', [HomeController::class, 'ajaxProject'])->name('home
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
 Route::get('lien-he.html', [FeContactController::class, 'index'])->name('contact.index');
 
 Route::get('crawler', [CrawlerController::class, 'index'])->name('crawler.index');
@@ -107,17 +110,20 @@ Route::post('ajax/contact/requestConsult', [AjaxContactController::class, 'reque
 
 /* CUSTOMER  */
 Route::get('customer/login'.config('apps.general.suffix'), [FeAuthController::class, 'index'])->name('fe.auth.login'); 
+
 Route::get('customer/check/login'.config('apps.general.suffix'), [FeAuthController::class, 'login'])->name('fe.auth.dologin');
 
 Route::get('customer/password/forgot'.config('apps.general.suffix'), [FeAuthController::class, 'forgotCustomerPassword'])->name('forgot.customer.password');
+
 Route::get('customer/password/email'.config('apps.general.suffix'), [FeAuthController::class, 'verifyCustomerEmail'])->name('customer.password.email');
+
 Route::get('customer/register'.config('apps.general.suffix'), [FeAuthController::class, 'register'])->name('customer.register');
+
 Route::post('customer/reg'.config('apps.general.suffix'), [FeAuthController::class, 'registerAccount'])->name('customer.reg');
 
-
 Route::get('customer/password/update'.config('apps.general.suffix'), [FeAuthController::class, 'updatePassword'])->name('customer.update.password');
-Route::post('customer/password/change'.config('apps.general.suffix'), [FeAuthController::class, 'changePassword'])->name('customer.password.reset');
 
+Route::post('customer/password/change'.config('apps.general.suffix'), [FeAuthController::class, 'changePassword'])->name('customer.password.reset');
 
 Route::get('shop/{account}', [SellerController::class, 'shop'])->name('seller.shop');
 
@@ -176,6 +182,7 @@ Route::post('ajax/cart/pay', [AjaxCartController::class, 'pay'])->name('ajax.car
 
 Route::get('ajax/dashboard/findModelObject', [AjaxDashboardController::class, 'findModelObject'])->name('ajax.dashboard.findModelObject');
 Route::get('ajax/dashboard/findProduct', [AjaxDashboardController::class, 'findProduct'])->name('ajax.dashboard.findProduct');
+Route::get('ajax/dashboard/findProductObject', [AjaxDashboardController::class, 'findProductObject'])->name('ajax.findProductObject');
 /* BACKEND ROUTES */
 
 Route::group(['middleware' => ['admin','locale','backend_default_locale']], function () {
@@ -354,6 +361,7 @@ Route::group(['middleware' => ['admin','locale','backend_default_locale']], func
         Route::get('{id}/delete', [ProductCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('product.catalogue.delete');
         Route::delete('{id}/destroy', [ProductCatalogueController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('product.catalogue.destroy');
     });
+
     Route::group(['prefix' => 'product'], function () {
         Route::get('index', [ProductController::class, 'index'])->name('product.index');
         Route::get('create', [ProductController::class, 'create'])->name('product.create');
@@ -363,6 +371,7 @@ Route::group(['middleware' => ['admin','locale','backend_default_locale']], func
         Route::get('{id}/delete', [ProductController::class, 'delete'])->where(['id' => '[0-9]+'])->name('product.delete');
         Route::delete('{id}/destroy', [ProductController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('product.destroy');
     });
+
     Route::group(['prefix' => 'attribute/catalogue'], function () {
         Route::get('index', [AttributeCatalogueController::class, 'index'])->name('attribute.catalogue.index');
         Route::get('create', [AttributeCatalogueController::class, 'create'])->name('attribute.catalogue.create');
@@ -401,28 +410,6 @@ Route::group(['middleware' => ['admin','locale','backend_default_locale']], func
 
    /*CRM*/
 
-    Route::group(['prefix' => 'agency'], function () {
-        Route::get('index', [AgencyController::class, 'index'])->name('agency.index');
-        Route::get('create', [AgencyController::class, 'create'])->name('agency.create');
-        Route::post('store', [AgencyController::class, 'store'])->name('agency.store');
-        Route::get('{id}/edit', [AgencyController::class, 'edit'])->where(['id' => '[0-9]+'])->name('agency.edit');
-        Route::post('{id}/update', [AgencyController::class, 'update'])->where(['id' => '[0-9]+'])->name('agency.update');
-        Route::get('{id}/delete', [AgencyController::class, 'delete'])->where(['id' => '[0-9]+'])->name('agency.delete');
-        Route::delete('{id}/destroy', [AgencyController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('agency.destroy');
-    });
-
-    Route::group(['prefix' => 'construction'], function () {
-        Route::get('index', [ConstructionController::class, 'index'])->name('construction.index');
-        Route::get('create', [ConstructionController::class, 'create'])->name('construction.create');
-        Route::post('store', [ConstructionController::class, 'store'])->name('construction.store');
-        Route::get('{id}/edit', [ConstructionController::class, 'edit'])->where(['id' => '[0-9]+'])->name('construction.edit');
-        Route::post('{id}/update', [ConstructionController::class, 'update'])->where(['id' => '[0-9]+'])->name('construction.update');
-        Route::get('{id}/delete', [ConstructionController::class, 'delete'])->where(['id' => '[0-9]+'])->name('construction.delete');
-        Route::delete('{id}/destroy', [ConstructionController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('construction.destroy');
-        Route::get('warranty', [ConstructionController::class, 'warranty'])->name('construction.warranty');
-    });
-
-
     Route::group(['prefix' => 'report'], function () {
         Route::get('time', [ReportController::class, 'time'])->name('report.time');
         Route::get('product', [ReportController::class, 'product'])->name('report.product');
@@ -435,9 +422,25 @@ Route::group(['middleware' => ['admin','locale','backend_default_locale']], func
         Route::delete('{id}/destroy', [ContactController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('contact.destroy');
     });
    
-
-
-
+    Route::group(['prefix' => 'lecturer'], function () {
+        Route::get('index', [LecturerController::class, 'index'])->name('lecturer.index');
+        Route::get('create', [LecturerController::class, 'create'])->name('lecturer.create');
+        Route::post('store', [LecturerController::class, 'store'])->name('lecturer.store');
+        Route::get('{id}/edit', [LecturerController::class, 'edit'])->where(['id' => '[0-9]+'])->name('lecturer.edit');
+        Route::post('{id}/update', [LecturerController::class, 'update'])->where(['id' => '[0-9]+'])->name('lecturer.update');
+        Route::get('{id}/delete', [LecturerController::class, 'delete'])->where(['id' => '[0-9]+'])->name('lecturer.delete');
+        Route::delete('{id}/destroy', [LecturerController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('lecturer.destroy');
+    });
+    
+    Route::group(['prefix' => 'introduce'], function () {
+        Route::get('index', [IntroduceController::class, 'index'])->name('introduce.index');
+        Route::get('create', [IntroduceController::class, 'create'])->name('introduce.create');
+        Route::post('store', [IntroduceController::class, 'store'])->name('introduce.store');
+        Route::get('{id}/edit', [IntroduceController::class, 'edit'])->where(['id' => '[0-9]+'])->name('introduce.edit');
+        Route::post('{id}/update', [IntroduceController::class, 'update'])->where(['id' => '[0-9]+'])->name('introduce.update');
+        Route::get('{id}/delete', [IntroduceController::class, 'delete'])->where(['id' => '[0-9]+'])->name('introduce.delete');
+        Route::delete('{id}/destroy', [IntroduceController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('introduce.destroy');
+    });
 
    /* AJAX */
   

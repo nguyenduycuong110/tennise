@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Language;
 use Illuminate\Support\Str;
+use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
 
 class DashboardController extends Controller
 {
 
     protected $language;
+    protected $promotionRepository;
 
     public function __construct(
-       
+        PromotionRepository $promotionRepository
     ){
         $this->middleware(function($request, $next){
             $locale = app()->getLocale(); // vn en cn
@@ -21,6 +23,7 @@ class DashboardController extends Controller
             $this->language = $language->id;
             return $next($request);
         });
+        $this->promotionRepository = $promotionRepository;
     }
 
     public function changeStatus(Request $request){
@@ -192,6 +195,32 @@ class DashboardController extends Controller
         ], $this->language, $alias);
         return response()->json($object); 
     }
+
+    public function findProductObject(Request $request){
+        $html = '';
+        $productCatalogueId = $request->input('product_catalogue_id');
+        if(!$productCatalogueId){
+            return response()->json(['html' => $html]);
+        }
+        $class = loadClass('Product');
+        $products = $class->getProductByProductCatalogue($productCatalogueId, $this->language);
+        $productIds = $products->pluck('id')->all();
+        if(!count($productIds) &&!is_array($productIds)){
+            return response()->json(['html' => $html]);
+        }
+        $promotions = $this->promotionRepository->findByProduct($productIds);
+        if($promotions->isNotEmpty()){
+                $promotionMap = $promotions->keyBy('product_id');
+                foreach($products as $index => $product){
+                    if($promotionMap->has($product->id)){
+                        $products[$index]->promotions = $promotionMap->get($product->id);
+                    }
+                }
+            }
+        $html = view('frontend.component.product-item-switch', ['products' => $products])->render();
+        return response()->json(['html' => $html]);
+    }
+    
 
 
 }

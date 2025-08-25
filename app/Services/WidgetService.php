@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Services\Interfaces\WidgetServiceInterface;
 use App\Repositories\Interfaces\WidgetRepositoryInterface as WidgetRepository;
 use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
+use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
 use App\Repositories\Interfaces\ProductCatalogueRepositoryInterface as ProductCatalogueRepository;
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
 use Illuminate\Support\Facades\DB;
@@ -20,14 +21,16 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 {
     protected $widgetRepository;
     protected $promotionRepository;
-    protected $ProductCatalogueRepository;
-    protected $ProductService;
+    protected $productRepository;
+    protected $productCatalogueRepository;
+    protected $productService;
 
     protected static $widgetCache = [];
 
     public function __construct(
         WidgetRepository $widgetRepository,
         PromotionRepository $promotionRepository,
+        ProductRepository $productRepository,
         ProductCatalogueRepository $productCatalogueRepository,
         ProductService $productService,
     ) {
@@ -118,7 +121,6 @@ class WidgetService extends BaseService implements WidgetServiceInterface
             $temp = $widget->description;
             $temp[$translateId] = $request->input('translate_description');
             $payload['description'] = $temp;
-
             $this->widgetRepository->update($widget->id, $payload);
             DB::commit();
             return true;
@@ -150,6 +152,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
      */
     public function getWidget(array $params = [], int $language = 1): array
     {
+
         $cacheKey = md5(serialize($params) . '_lang_' . $language);
 
         if (isset(static::$widgetCache[$cacheKey])) {
@@ -157,6 +160,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
         }
 
         $keywords = array_column($params, 'keyword');
+
         $paramsMap = collect($params)->keyBy('keyword');
 
         // SINGLE QUERY 1: Get all widgets
@@ -167,13 +171,12 @@ class WidgetService extends BaseService implements WidgetServiceInterface
         }
 
         $widgetsByModel = $widgets->groupBy('model');
-        $result = [];
 
+        $result = [];
 
         foreach ($widgetsByModel as $model => $modelWidgets) {
             $modelResult = $this->processWidgetsByModel($model, $modelWidgets, $paramsMap, $language);
             $result = array_merge($result, $modelResult);
-
         }
 
         return static::$widgetCache[$cacheKey] = $result;
@@ -189,10 +192,11 @@ class WidgetService extends BaseService implements WidgetServiceInterface
         }
 
         $escapedKeywords = array_map('addslashes', $keywords);
+
         $keywordList = "'" . implode("','", $escapedKeywords) . "'";
 
         $results = DB::select("
-            SELECT id, name, keyword, model, model_id, short_code, description, album
+            SELECT id, name, keyword, model, model_id, short_code, description, album 
             FROM widgets 
             WHERE keyword IN ({$keywordList})
             AND publish = 2 
@@ -231,11 +235,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
     private function processCatalogueWidgets(string $model, Collection $widgets, Collection $paramsMap, int $language): array
     {
 
-        // dd($widgets);
-
         $tableName = $this->getTableName($model);
-
-
 
         // Flatten model_id arrays
         $modelIds = $widgets->pluck('model_id')
@@ -266,9 +266,11 @@ class WidgetService extends BaseService implements WidgetServiceInterface
         $objectsMap = $this->getObjectsBatch($model, $catalogues, $language, $widgets, $paramsMap);
 
         $result = [];
+
         foreach ($widgets as $widget) {
             // Handle multiple model_ids
             $widgetModelIds = is_array($widget->model_id) ? $widget->model_id : [$widget->model_id];
+
             $cataloguesForWidget = $catalogues->whereIn('id', $widgetModelIds);
 
             if ($cataloguesForWidget->isEmpty()) {
@@ -474,7 +476,6 @@ class WidgetService extends BaseService implements WidgetServiceInterface
             return [];
         }
 
-
         $objectModel = $this->getObjectModel($catalogueModel);
         $objectTable = $this->getTableName($objectModel);
         $pivotTable = $this->getPivotTableName($objectModel);
@@ -516,11 +517,14 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 
         if ($objectModel === 'product') {
             $sql .= ",
+                    l.name as lecturer_name,
+                    l.image as lecturer_image,
                     COUNT(DISTINCT r.id) as review_count,
                     COALESCE(AVG(r.score), 0) as review_average,
                     GROUP_CONCAT(DISTINCT pv.id) as variant_ids
                 ";
         }
+
 
         $sql .= "
                 FROM {$objectTable} o
@@ -534,6 +538,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 
         if ($objectModel === 'product') {
             $sql .= "
+                    LEFT JOIN lecturers l ON o.lecturer_id = l.id
                     LEFT JOIN reviews r ON o.id = r.reviewable_id AND r.reviewable_type = 'App\\\\Models\\\\Product'
                     LEFT JOIN product_variants pv ON o.id = pv.product_id
                 ";
@@ -546,11 +551,12 @@ class WidgetService extends BaseService implements WidgetServiceInterface
                 GROUP BY o.id, p.{$catalogueIdField}
                 ORDER BY o.order DESC, o.id DESC
             ";
-
+        
         $objects = collect(DB::select($sql, [$language, $language]));
 
         // Group by category and limit per widget
         $result = [];
+
         foreach ($catalogues as $catalogue) {
             $categoryObjects = $objects->where('category_id', $catalogue->id);
 
@@ -594,7 +600,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
                 }
 
                 // Add product-specific data
-                if ($objectModel === 'product') {
+                if ($objectModel === 'Product') {
                     $item->review_count = (int) $item->review_count;
                     $item->review_average = round((float) $item->review_average, 1);
 
@@ -624,6 +630,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 
             $result[$catalogue->id] = $processedObjects;
         }
+
 
         return $result;
     }
@@ -657,8 +664,10 @@ class WidgetService extends BaseService implements WidgetServiceInterface
                 GROUP_CONCAT(DISTINCT cl.name) as catalogue_names
         ";
 
-        if ($model === 'product') {
+        if ($model === 'Product') {
             $sql .= ",
+                l.name as lecturer_name,
+                l.image as lecturer_image,
                 COUNT(DISTINCT r.id) as review_count,
                 COALESCE(AVG(r.score), 0) as review_average
             ";
@@ -672,8 +681,10 @@ class WidgetService extends BaseService implements WidgetServiceInterface
             LEFT JOIN {$catalogueLanguageTable} cl ON c.id = cl.{$model}_catalogue_id AND cl.language_id = ?
         ";
 
-        if ($model === 'product') {
+
+        if ($model === 'Product') {
             $sql .= "
+                LEFT JOIN lecturers l ON o.lecturer_id = l.id
                 LEFT JOIN reviews r ON o.id = r.reviewable_id AND r.reviewable_type = 'App\\\\Models\\\\Product'
             ";
         }
@@ -709,7 +720,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
                 });
             }
 
-            if ($model === 'product') {
+            if ($model === 'Product') {
                 $item->review_count = (int) $item->review_count;
                 $item->review_average = round((float) $item->review_average, 1);
             }
@@ -773,12 +784,21 @@ class WidgetService extends BaseService implements WidgetServiceInterface
      */
     private function applyPromotions(Collection $objects, string $model): Collection
     {
-        if ($model !== 'product')
+        if (!in_array($model, ['Product', 'ProductCatalogue']) && !$objects->isNotEmpty()) {
             return $objects;
-
+        }
         $productIds = $objects->pluck('id')->toArray();
-        // TODO: Integrate with existing promotion logic
-        // For now, just return original objects
+        if(!empty($productIds) && is_array($productIds)){
+            $promotions = $this->promotionRepository->findByProduct($productIds);
+            if($promotions->isNotEmpty()){
+                $promotionMap = $promotions->keyBy('product_id');
+                foreach($objects as $index => $product){
+                    if($promotionMap->has($product->id)){
+                        $objects[$index]->promotions = $promotionMap->get($product->id);
+                    }
+                }
+            }
+        }
         return $objects;
     }
 

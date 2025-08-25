@@ -4,25 +4,26 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\FrontendController;
 use App\Services\Interfaces\CustomerServiceInterface  as CustomerService;
-use App\Services\Interfaces\AgencyServiceInterface  as AgencyService;
+use App\Services\Interfaces\SlideServiceInterface as SlideService;
 use App\Http\Requests\AuthRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordMail; 
 use App\Models\Customer;
-use App\Models\Agency;
+use App\Enums\SlideEnum;
+
 
 class AuthController extends FrontendController
 {
     protected $customerService;
-    protected $agencyService;
+    protected $slideService;
     public function __construct(
         CustomerService $customerService,
-        AgencyService $agencyService,
+        SlideService $slideService,
     ){
         $this->customerService = $customerService;
-        $this->agencyService = $agencyService;
+        $this->slideService = $slideService;
         parent::__construct();
     }
 
@@ -47,12 +48,17 @@ class AuthController extends FrontendController
             'meta_keyword' => '',
             'meta_description' => '',
             'meta_image' => '',
-            'canonical' => route('customer.profile')
+            'canonical' => ''
         ];
         $system = $this->system;
+        $slides = $this->slideService->getSlide(
+            [SlideEnum::WHYCHOOSE],
+            $this->language
+        );
         return view('frontend.auth.customer.register',compact(
             'seo',
-            'system'
+            'system',
+            'slides'
         ));
     }
     

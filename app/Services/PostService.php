@@ -203,7 +203,6 @@ class PostService extends BaseService implements PostServiceInterface
             'posts.order',
             'posts.created_at',
             'posts.template',
-            'posts.short_name',
             'posts.video',
             'posts.viewed',
             'tb2.name', 
@@ -235,7 +234,6 @@ class PostService extends BaseService implements PostServiceInterface
             'meta_keyword',
             'meta_description',
             'canonical',
-            // 'short_name'
         ];
     }
 

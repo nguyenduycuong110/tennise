@@ -153,6 +153,18 @@ return [
             ]
         ],
         [
+            'title' => 'QL Giảng Viên',
+            'icon' => 'fa fa-user',
+            'name' => ['lecturer'],
+            'route' => 'lecturer/index'
+        ],
+        [
+            'title' => 'Giới thiệu',
+            'icon' => 'fa fa-user',
+            'name' => ['introduce'],
+            'route' => 'introduce/index'
+        ],
+        [
             'title' => 'QL Banner & Slide',
             'icon' => 'fa fa-picture-o',
             'name' => ['slide'],
@@ -183,10 +195,6 @@ return [
                     'title' => 'QL Ngôn ngữ',
                     'route' => 'language/index'
                 ],
-                // [
-                //     'title' => 'QL Module',
-                //     'route' => 'generate/index'
-                // ],
                 [
                     'title' => 'Cấu hình hệ thống',
                     'route' => 'system/index'

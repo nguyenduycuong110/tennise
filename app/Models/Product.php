@@ -29,7 +29,10 @@ class Product extends Model
         'qrcode',
         'warranty',
         'check',
-        'seller_id'
+        'seller_id',
+        'total_lesson',
+        'duration',
+        'lecturer_id'
     ];
 
     protected $casts = [
@@ -84,20 +87,12 @@ class Product extends Model
         return $this->morphMany(Review::class, 'reviewable');
     }
 
-    public function constructions(){
-        return $this->belongsToMany(Construction::class, 'construction_product' , 'construction_id', 'product_id')->withPivot(
-            'construction_id',
-            'product_id',
-            'quantity',
-            'startDate',
-            'endDate',
-            'color',
-            'warranty',
-            'status',
-        );
-    }
-
     public function sellers(){
         return $this->belongsTo(Customer::class, 'seller_id', 'id');
     }
+
+    public function lecturers(){
+        return $this->belongsTo(Lecturer::class, 'lecturer_id', 'id');
+    }
+    
 }

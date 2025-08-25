@@ -5,10 +5,14 @@
         <div class="uk-container uk-container-center">
             <ul class="uk-list uk-clearfix uk-flex uk-flex-middle">
                 <li>
-                    <a href="/" title="Trang chủ"><i class="fi-rs-home mr5"></i>Trang chủ</a>
-                    <span><i class="fi-rs-angle-right"></i></span>
+                    <a href="/" title="Trang chủ">Trang chủ</a>
                 </li>
-                <li><a href="{{ write_url('thanh-toan') }}" title="Thanh toán">Thanh toán</a></li>
+                <li>    
+                    <span class="slash">/</span>
+                </li>
+                <li>
+                    <a href="{{ write_url('thanh-toan') }}" title="Thanh toán">Thanh toán</a>
+                </li>
             </ul>
         </div>
     </div>

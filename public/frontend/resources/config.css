@@ -27,7 +27,7 @@ i[class^=fi-rs-],span[class^=fi-rs-]{line-height:0 !important}i[class^=fi-rs-]:b
 }
 body{
     /* font-family: 'Montserrat', sans-serif; */
-    /* font-weight: 300; */
+    font-weight: 300;
     margin:0;
     color:#000;
 }
@@ -313,7 +313,6 @@ ul li{
     border-bottom:1px solid #d9d9d9;
 }
 .panel-cart{
-    padding-top:25px;
     padding-bottom:25px;
 }
 .panel-cart .cart-heading{
@@ -768,7 +767,6 @@ ul li{
 }
 .cart-container h2.heading-1{
     text-align: center;
-    padding-top: 20px;
     margin-bottom: 20px;
 }
 .cart-container h2.heading-1 > *{
@@ -776,7 +774,7 @@ ul li{
     text-transform: uppercase;
     line-height: 30px;
     font-weight: bold;
-    color: #da2229;
+    color: #0C4A1A;
 }
 .cart-container .panel-foot h2.cart-heading{
     font-size: 16px;
@@ -998,16 +996,19 @@ ul li{
     top:100%;
     background: #fff;
     width: 250px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 6px;
 }
 
 .navigation .dropdown-menu li a{
     display: block;
-    padding: 10px;
+    padding: 10px 15px;
     color:#000;
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 13px;
 }
 .navigation .dropdown-menu li:hover a{
-    background: #d92329;
+    background: #0C4A1A;
     color:#fff;
 }
 
@@ -1039,10 +1040,6 @@ ul li{
     width:100%;
     background: #d92329;
     height:2px;
-}
-
-.logo{
-    max-width: 150px;
 }
 
 .pagination{
@@ -1080,8 +1077,8 @@ ul li{
 }
 
 .page-breadcrumb ul li:not(:last-child){
-    margin-right:10px;
-    padding-right:10px;
+    margin-right:5px;
+    padding-right:5px;
     position: relative;
 }
 
@@ -1304,4 +1301,21 @@ input[readonly]{
 }
 .order-success_note{
     font-size:16px;
+}
+.product-price{
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(240, 240, 245, 1);
+}
+/*Cart*/
+@media(max-width:767px){
+    .cart-information .uk-grid{
+        margin-bottom: 15px !important;
+    }
+    .cart-information .uk-width-large-1-2:not(:last-child){
+        margin-bottom: 20px;
+    }
+}
+.mobile-logo .search{
+    margin-bottom: 0;
 }

@@ -116,15 +116,35 @@ class System{
             'description' => 'Cài đặt đầy đủ thông tin về Mạng xã hội của trang chủ website. Bao gồm tiêu đề Mạng xã hội, Từ Khóa SEO, Mô Tả SEO, Meta images',
             'value' => [
                 'facebook' => ['type' => 'text', 'label' => 'Facebook'],
+                'google' => ['type' => 'text', 'label' => 'Google'],
+                'tiktok' => ['type' => 'text', 'label' => 'Tiktok'],
+                'twitter' => ['type' => 'text', 'label' => 'Twitter'],
                 'messenger' => ['type' => 'text', 'label' => 'Messenger'],
                 'zalo' => ['type' => 'text', 'label' => 'Zalo'],
                 'youtube' => ['type' => 'text', 'label' => 'Youtube'],
-                'twitter' => ['type' => 'text', 'label' => 'Twitter'],
-                'tiktok' => ['type' => 'text', 'label' => 'Tiktok'],
                 'instagram' => ['type' => 'text', 'label' => 'Instagram'],
+                'lazada' => ['type' => 'text', 'label' => 'Lazada'],
+                'shopee' => ['type' => 'text', 'label' => 'Shopee'],
             ]
         ];
 
+        $data['background'] = [
+            'label' => 'Cấu hình background',
+            'description' => '',
+            'value' => [
+                '1' => ['type' => 'images', 'label' => 'Background (banner)'],
+                '2' => ['type' => 'images', 'label' => 'Background (đăng ký)'],
+                '3' => ['type' => 'images', 'label' => 'Background (logo)'],
+            ]
+        ];
+
+        $data['text'] = [
+            'label' => 'Cấu hình text',
+            'description' => '',
+            'value' => [
+                '1' => ['type' => 'text', 'label' => 'Text_1'],
+            ]
+        ];
        
 
 

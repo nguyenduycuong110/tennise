@@ -9,13 +9,11 @@ use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
 use App\Repositories\Interfaces\ProductVariantLanguageRepositoryInterface as ProductVariantLanguageRepository;
 use App\Repositories\Interfaces\ProductVariantAttributeRepositoryInterface as ProductVariantAttributeRepository;
 use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
+use App\Repositories\Interfaces\LecturerRepositoryInterface as LecturerRepository;
 use App\Repositories\Interfaces\AttributeCatalogueRepositoryInterface as AttributeCatalogueRepository;
 use App\Repositories\Interfaces\AttributeRepositoryInterface as AttributeRepository;
 use App\Services\Interfaces\ProductCatalogueServiceInterface as ProductCatalogueService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
@@ -34,6 +32,7 @@ class ProductService extends BaseService implements ProductServiceInterface
     protected $productVariantLanguageRepository;
     protected $productVariantAttributeRepository;
     protected $promotionRepository;
+    protected $lecturerRepository;
     protected $attributeCatalogueRepository;
     protected $attributeRepository;
     protected $productCatalogueService;
@@ -44,11 +43,13 @@ class ProductService extends BaseService implements ProductServiceInterface
         ProductVariantLanguageRepository $productVariantLanguageRepository,
         ProductVariantAttributeRepository $productVariantAttributeRepository,
         PromotionRepository $promotionRepository,
+        LecturerRepository $lecturerRepository,
         AttributeCatalogueRepository $attributeCatalogueRepository,
         AttributeRepository $attributeRepository,
         ProductCatalogueService $productCatalogueService,
     ){
         $this->productRepository = $productRepository;
+        $this->lecturerRepository = $lecturerRepository;
         $this->routerRepository = $routerRepository;
         $this->promotionRepository = $promotionRepository;
         $this->productVariantLanguageRepository = $productVariantLanguageRepository;
@@ -87,7 +88,9 @@ class ProductService extends BaseService implements ProductServiceInterface
                 return $page;
             });
         }
+
         $perPage = (!is_null($productCatalogue))  ? 24 : 24;
+
         $condition = [
             'keyword' => addslashes($request->input('keyword')),
             'publish' => $request->integer('publish'),
@@ -95,6 +98,7 @@ class ProductService extends BaseService implements ProductServiceInterface
                 ['tb2.language_id', '=', $languageId],
             ],
         ];
+
         $paginationConfig = [
             'path' => ($extend['path']) ?? 'product/index', 
             'groupBy' => $this->paginateSelect()
@@ -106,7 +110,6 @@ class ProductService extends BaseService implements ProductServiceInterface
 
         $rawQuery = $this->whereRaw($request, $languageId, $productCatalogue);
 
-        // dd($rawQuery);
         $joins = [
             ['product_language as tb2', 'tb2.product_id', '=', 'products.id'],
             ['product_catalogue_product as tb3', 'products.id', '=', 'tb3.product_id'],
@@ -160,7 +163,6 @@ class ProductService extends BaseService implements ProductServiceInterface
                 $this->updateRouter(
                     $product, $request, $this->controllerName, $languageId
                 );
-                
                 
                 $product->product_variants()->each(function($variant){
                     $variant->languages()->detach();
@@ -351,6 +353,9 @@ class ProductService extends BaseService implements ProductServiceInterface
             'products.image',
             'products.order',
             'products.price',
+            'products.lecturer_id',
+            'products.total_lesson',
+            'products.duration',
             'tb2.name', 
             'tb2.canonical',
         ];
@@ -370,7 +375,10 @@ class ProductService extends BaseService implements ProductServiceInterface
             'attribute',
             'variant',
             'iframe',
-            'guarantee'
+            'guarantee',
+            'total_lesson',
+            'duration',
+            'lecturer_id'
         ];
     }
 
@@ -408,6 +416,25 @@ class ProductService extends BaseService implements ProductServiceInterface
 
         return $products;
     }
+
+    public function combineProductRelation($products){
+
+        $lecturers = $this->lecturerRepository->all();
+
+        if($lecturers){
+
+            foreach($products as $index => $product){
+                foreach($lecturers as $key => $lecturer){
+                    if($lecturer->id == $product->lecturer_id){
+                        $products[$index]->lecturers = $lecturer;
+                    }
+                }
+            }
+        }
+
+        return $products;
+    }
+
 
     public function getAttribute($product, $language){
         $product->attributeCatalogue = [];

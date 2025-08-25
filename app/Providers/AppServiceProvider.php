@@ -52,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
         'App\Services\Interfaces\ConstructServiceInterface' => 'App\Services\ConstructService',
         'App\Services\Interfaces\VoucherServiceInterface' => 'App\Services\VoucherService',
         'App\Services\Interfaces\ContactServiceInterface' => 'App\Services\ContactService',
+        'App\Services\Interfaces\LecturerServiceInterface' => 'App\Services\LecturerService',
     ];
 
     /**
@@ -91,15 +92,8 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer(['frontend.*', 'mobile.*'], function($view) use ($language){
             $composerClasses = [
-                // SystemComposer::class,
                 MenuComposer::class,
-                // LanguageComposer::class,
-                // CategoryComposer::class,
                 CartComposer::class,
-                // WishlistComposer::class,
-                // CustomerComposer::class,
-                // AgencyComposer::class,
-                // ProductCatalogueComposer::class,
             ];
 
             foreach($composerClasses as $key => $val){

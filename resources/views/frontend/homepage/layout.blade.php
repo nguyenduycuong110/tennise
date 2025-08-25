@@ -8,9 +8,7 @@
     @endif
     <body>
         @include('frontend.component.header')
-
         @yield('content')
-
         @include('frontend.component.footer')
         @include('frontend.component.script')
     </body>

@@ -74,7 +74,7 @@ class PostCatalogueController extends FrontendController
         ], $this->language);
 
         $slides = $this->slideService->getSlide(
-            [SlideEnum::BANNER, SlideEnum::MAIN, 'background-banner'],
+            [SlideEnum::MAIN],
             $this->language
         );
 
@@ -117,10 +117,7 @@ class PostCatalogueController extends FrontendController
             $template = 'frontend.post.catalogue.about-us';
         } else if (Agent::isMobile()) {
             $template = 'mobile.post.catalogue.index';
-        } else {
-           
-        }
-
+        } 
         
        
         

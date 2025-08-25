@@ -97,6 +97,7 @@
         <div class="row mb15">
             <div class="col-lg-12">
                 <div class="form-row">
+                    <label for="" class="control-label text-left">Chọn ảnh đại diện</label>
                     <textarea name="video" class="form-control video-target" style="height:168px;">{{ old('video', (isset($post->video)) ? $post->video : '') }}</textarea>
                 </div>
             </div>

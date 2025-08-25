@@ -37,7 +37,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'products.attributeCatalogue',
                 'products.attribute',
                 'products.variant',
-                // 'products.warranty',
+                'products.total_lesson',
+                'products.duration',
                 'tb2.name',
                 'tb2.description',
                 'tb2.content',
@@ -45,9 +46,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'tb2.meta_keyword',
                 'tb2.meta_description',
                 'tb2.canonical',
+                'tb3.name as lecturer_name',
+                'tb3.image as lecturer_image',
             ]
         )
         ->join('product_language as tb2', 'tb2.product_id', '=','products.id')
+        ->join('lecturers as tb3', 'tb3.id', '=','products.lecturer_id')
         ->with([
             'product_catalogues',
             'product_variants' => function ($query) use ($language_id) {
@@ -57,7 +61,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     }]);
                 }]);
             },
-            'reviews'
+            'reviews',
         ])
         ->where('tb2.language_id', '=', $language_id)
         ->where('products.publish', '=', 2)
@@ -88,7 +92,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'tb2.meta_keyword',
                 'tb2.meta_description',
                 'tb2.canonical',
-                
             ]
         )
         ->join('product_language as tb2', 'tb2.product_id', '=','products.id')
@@ -129,6 +132,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'products.warranty',
                 'products.iframe',
                 'products.seller_id',
+                'products.total_lesson',
+                'products.duration',
+                'products.lecturer_id',
                 'tb2.name',
                 'tb2.description',
                 'tb2.content',
@@ -257,6 +263,34 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     
     public function getRelated($limit = 6, $productCatalogueId = 0, $productId = 0){
         return $this->model->where('publish' , 2)->where('product_catalogue_id', $productCatalogueId)->where('id', '!=', $productId)->orderBy('id', 'desc')->limit($limit)->get();
+    }
+
+    public function getProductByProductCatalogue(int $productCatalogue = 0, $language_id = 0)
+    {
+        $products = Product::withCount(['reviews as review_count'])
+        ->withAvg('reviews as review_average', 'score')
+        ->select([
+            'products.id',
+            'products.price', 
+            'products.image',
+            'products.total_lesson',
+            'products.duration',
+            'tb2.name',
+            'tb2.canonical',
+            'tb2.description', 
+            'tb2.content',
+            'tb2.meta_title',
+            'tb3.name as lecturer_name',
+            'tb3.image as lecturer_avatar'
+        ])
+        ->whereHas('product_catalogues', function ($query) use ($productCatalogue) {
+            $query->where('product_catalogue_id', $productCatalogue);
+        })
+        ->join('product_language as tb2', 'tb2.product_id', '=','products.id')
+        ->leftJoin('lecturers as tb3','tb3.id', '=', 'products.lecturer_id')
+        ->where('tb2.language_id', '=', $language_id)
+        ->get();
+        return $products;
     }
 
 }

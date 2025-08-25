@@ -695,9 +695,9 @@ input[type=checkbox]{
     font-weight: normal;
     font-size:14px;
 }
-.widgetContent .row{
+/* .widgetContent .row{
     margin-bottom:0 !important;
-}
+} */
 .labelText{
     margin-bottom:20px;
     font-weight: 600;

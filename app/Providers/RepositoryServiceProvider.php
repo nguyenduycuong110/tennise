@@ -42,11 +42,11 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Repositories\Interfaces\OrderRepositoryInterface' => 'App\Repositories\OrderRepository',
         'App\Repositories\Interfaces\ReviewRepositoryInterface' => 'App\Repositories\ReviewRepository',
         'App\Repositories\Interfaces\DistributionRepositoryInterface' => 'App\Repositories\DistributionRepository',
-
         'App\Repositories\Interfaces\AgencyRepositoryInterface' => 'App\Repositories\AgencyRepository',
         'App\Repositories\Interfaces\ConstructRepositoryInterface' => 'App\Repositories\ConstructRepository',
         'App\Repositories\Interfaces\VoucherRepositoryInterface' => 'App\Repositories\VoucherRepository',
         'App\Repositories\Interfaces\ContactRepositoryInterface' => 'App\Repositories\ContactRepository',
+        'App\Repositories\Interfaces\LecturerRepositoryInterface' => 'App\Repositories\LecturerRepository',
     ];
 
     public function register(): void

@@ -345,6 +345,21 @@ return [
             'title' => 'Xóa Liên hệ'
         ],
     ],
+    'lecturer' => [
+        'index' => [
+            'title' => 'Quản lý Giảng viên',
+            'table' => 'Danh sách Giảng viên'
+        ],
+        'create' => [
+            'title' => 'Thêm mới Giảng viên'
+        ],
+        'edit' => [
+            'title' => 'Cập nhật Giảng viên'
+        ],
+        'delete' => [
+            'title' => 'Xóa Giảng viên'
+        ],
+    ],
     'parent' => 'Chọn danh mục cha',
     'parentNotice' => 'Chọn Root nếu không có danh mục cha',
     'subparent' => 'Chọn danh mục phụ (nếu có)',

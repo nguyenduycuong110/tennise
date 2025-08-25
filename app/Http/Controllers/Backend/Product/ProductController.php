@@ -9,6 +9,7 @@ use App\Services\Interfaces\ProductServiceInterface  as ProductService;
 use App\Repositories\Interfaces\ProductRepositoryInterface  as ProductRepository;
 use App\Repositories\Interfaces\AttributeRepositoryInterface  as AttributeRepository;
 use App\Repositories\Interfaces\AttributeCatalogueRepositoryInterface  as AttributeCatalogueRepository;
+use App\Repositories\Interfaces\LecturerRepositoryInterface  as LecturerRepository;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Classes\Nestedsetbie;
@@ -22,12 +23,14 @@ class ProductController extends Controller
     protected $language;
     protected $attributeCatalogue;
     protected $attributeRepository;
+    protected $lecturerRepository;
 
     public function __construct(
         ProductService $productService,
         ProductRepository $productRepository,
         AttributeCatalogueRepository $attributeCatalogue,
         AttributeRepository $attributeRepository,
+        LecturerRepository $lecturerRepository,
     ){
         $this->middleware(function($request, $next){
             $locale = app()->getLocale(); // vn en cn
@@ -41,6 +44,7 @@ class ProductController extends Controller
         $this->productRepository = $productRepository;
         $this->attributeCatalogue = $attributeCatalogue;
         $this->attributeRepository = $attributeRepository;
+        $this->lecturerRepository = $lecturerRepository;
         $this->initialize();
         
     }
@@ -56,17 +60,7 @@ class ProductController extends Controller
     public function index(Request $request){
         $this->authorize('modules', 'product.index');
         $products = $this->productService->paginate($request, $this->language);
-        $config = [
-            'js' => [
-                'backend/js/plugins/switchery/switchery.js',
-                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js'
-            ],
-            'css' => [
-                'backend/css/plugins/switchery/switchery.css',
-                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
-            ],
-            'model' => 'Product'
-        ];
+        $config = $this->configData();
         $config['seo'] = __('messages.product');
         $template = 'backend.product.product.index';
         $dropdown  = $this->nestedset->Dropdown();
@@ -81,6 +75,7 @@ class ProductController extends Controller
     public function create(){
         $this->authorize('modules', 'product.create');
         $attributeCatalogue = $this->attributeCatalogue->getAll($this->language);
+        $lecturers = $this->lecturerRepository->all();
         $config = $this->configData();
         $config['seo'] = __('messages.product');
         $config['method'] = 'create';
@@ -91,6 +86,7 @@ class ProductController extends Controller
             'dropdown',
             'config',
             'attributeCatalogue',
+            'lecturers'
         ));
     }
 
@@ -104,6 +100,7 @@ class ProductController extends Controller
     public function edit($id, Request $request){
         $this->authorize('modules', 'product.update');
         $product = $this->productRepository->getProductById($id, $this->language);
+        $lecturers = $this->lecturerRepository->all();
         $attributeCatalogue = $this->attributeCatalogue->getAll($this->language);
         $queryUrl = $request->getQueryString();
         $config = $this->configData();
@@ -119,7 +116,8 @@ class ProductController extends Controller
             'product',
             'album',
             'attributeCatalogue',
-            'queryUrl'
+            'queryUrl',
+            'lecturers'
         ));
     }
 
@@ -160,14 +158,16 @@ class ProductController extends Controller
                 'backend/library/variant.js',
                 'backend/js/plugins/switchery/switchery.js',
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
-                'backend/plugins/nice-select/js/jquery.nice-select.min.js'
+                'backend/plugins/nice-select/js/jquery.nice-select.min.js',
+                'backend/js/plugins/switchery/switchery.js',
             ],
             'css' => [
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
                 'backend/plugins/nice-select/css/nice-select.css',
                 'backend/css/plugins/switchery/switchery.css',
-            ]
-          
+                'backend/css/plugins/switchery/switchery.css',
+            ],
+            'model' => 'Product'
         ];
     }
 
