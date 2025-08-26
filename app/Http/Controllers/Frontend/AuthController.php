@@ -64,7 +64,7 @@ class AuthController extends FrontendController
     
     public function registerAccount(AuthRegisterRequest $request){
         if($this->customerService->create($request)){
-           return redirect()->route('fe.auth.login')->with('success','Đăng kí tài khoản thành công');
+           return redirect()->route('home.index')->with('success','Đăng kí tài khoản thành công');
         }
         return redirect()->route('customer.register')->with('error','Thêm mới bản ghi không thành công. Hãy thử lại');
     }

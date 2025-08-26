@@ -1,55 +1,33 @@
-@extends('frontend.homepage.layout')
-@section('content')
-    <div class="login-container">
-        <div class="uk-container uk-container-center">
-            <div class="login-page">
-                <div class="uk-grid uk-grid-medium">
-                    <div class="uk-width-large-2-3">
-                        <div class="login-wrapper">
-                            
-                        </div>
-                    </div>
-                    <div class="uk-width-large-1-3">
-                        <div class="login-form">
-                            <form action="{{ route('fe.auth.dologin') }}" class="uk-form form">
-                                @csrf
-                                <div class="form-heading">Đăng nhập</div>
-                                <div class="form-row">
-                                    <input 
-                                        type="text"
-                                        name="email"
-                                        value=""
-                                        placeholder="Email đăng nhập"
-                                        class="input-text"
-                                    >
-                                </div>
-                                <div class="form-row">
-                                    <input 
-                                        type="password"
-                                        name="password"
-                                        value=""
-                                        placeholder="Mật khẩu"
-                                        class="input-text"
-                                    >
-                                </div>
-                                <button type="submit" value="login" name="login">Đăng nhập</button>
-                                <div class="form-row forgot-password">
-                                    <div class="uk-flex uk-flex-middle">
-                                        <a href="{{ route('forgot.customer.password') }}">Quên mật khẩu</a>
-                                    </div>
-                                </div>
-                                <div class="register-box uk-text-center">
-                                    Bạn mới biết đến {{ $system['homepage_brand'] }}? <a href="{{ route('customer.register') }}" class="s">Đăng ký</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+<div class="uk-modal" id="modal-login">
+    <div class="modal uk-modal-dialog">
+        <div class="modal-header">
+            <h2 class="modal-title">Đăng nhập</h2>
+        </div>
+        <div class="modal-body">
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+            <form action="{{ route('fe.auth.dologin') }}" method="POST" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="text" id="email" name="email" required>
+                    <div class="field-error" id="email"></div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu <span class="required">*</span></label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="field-error" id="password"></div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    <label for="rememberMe">Ghi nhớ mật khẩu</label>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    Đăng nhập
+                </button>
+                <div class="forgot-password">
+                    <a href="#" onclick="forgotPassword()">Quên mật khẩu?</a>
+                </div>
+            </form>
         </div>
     </div>
-
-@endsection
-
-
-
+</div>

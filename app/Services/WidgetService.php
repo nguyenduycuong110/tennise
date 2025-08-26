@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Services\Interfaces\WidgetServiceInterface;
 use App\Repositories\Interfaces\WidgetRepositoryInterface as WidgetRepository;
 use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
-use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
 use App\Repositories\Interfaces\ProductCatalogueRepositoryInterface as ProductCatalogueRepository;
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
 use Illuminate\Support\Facades\DB;
@@ -30,7 +29,6 @@ class WidgetService extends BaseService implements WidgetServiceInterface
     public function __construct(
         WidgetRepository $widgetRepository,
         PromotionRepository $promotionRepository,
-        ProductRepository $productRepository,
         ProductCatalogueRepository $productCatalogueRepository,
         ProductService $productService,
     ) {
@@ -711,7 +709,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
             if ($item->catalogue_ids) {
                 $catalogueIds = explode(',', $item->catalogue_ids);
                 $catalogueNames = explode(',', $item->catalogue_names);
-                $relationName = $model . '_catalogues';
+                $relationName = strtolower($model) . '_catalogues';
                 $item->{$relationName} = collect($catalogueIds)->map(function ($id, $index) use ($catalogueNames) {
                     return (object) [
                         'id' => $id,

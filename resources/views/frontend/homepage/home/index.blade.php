@@ -72,7 +72,7 @@
                         </div>
                     @endif
                     <div class="btn">
-                        <a href="{{ write_url('san-pham') }}" title="" class="btn-rm">Xem thêm</a>
+                        <a href="{{ write_url('khoa-hoc') }}" title="" class="btn-rm">Xem thêm</a>
                     </div>
                 </div>
             </div>
@@ -103,8 +103,8 @@
                                             </li>
                                             @foreach($widgets['new-course-launch']->object as $key => $val)
                                                 @php
-                                                    $ct_id = $val->Product_catalogues[0]->id;
-                                                    $ct_name = $val->Product_catalogues[0]->languages->name;
+                                                    $ct_id = $val->product_catalogues[0]->id;
+                                                    $ct_name = $val->product_catalogues[0]->languages->name;
                                                 @endphp
                                                 <li data-product-catalogue-id="{{ $ct_id }}"><span>{{ $ct_name }}</span></li>
                                             @endforeach
@@ -129,7 +129,7 @@
                         </div>
                     @endif
                     <div class="btn">
-                        <a href="{{ write_url('san-pham') }}" title="" class="btn-rm">Xem thêm</a>
+                        <a href="{{ write_url('khoa-hoc') }}" title="" class="btn-rm">Xem thêm</a>
                     </div>
                 </div>
             </div>
@@ -144,19 +144,17 @@
                             </div>
                             <div class="text-content">
                                 <div class="badge wow fadeInUp" data-wow-delay="0.2s">
-                                    <span>Đăng ký khóa học</span>
+                                    <span>{{ $system['text_2'] }}</span>
                                 </div>
                                 <h3 class="heading-2 wow fadeInUp" data-wow-delay="0.3s">
-                                    ĐĂNG KÝ TÀI KHOẢN ĐỂ NHẬN NGAY<br>
-                                    CÁC CHƯƠNG TRÌNH <span class="highlight">ƯU ĐÃI</span> MỚI<br>
-                                    NHẤT
+                                    {!! $system['text_3'] !!}
                                 </h3>
                                 <div class="contact-info  wow fadeInUp" data-wow-delay="0.4s">
                                     <div class="phone-icon">
                                         <img src="/frontend/resources/img/call.svg" alt="">
                                     </div>
                                     <div class="phone-info">
-                                        <div class="phone-label">Hoặc gọi trực tiếp</div>
+                                        <div class="phone-label">{{ $system['text_4'] }}</div>
                                         <a href="tel:{{ $system['contact_hotline'] }}" class="phone-number">{{ $system['contact_hotline'] }}</a>
                                     </div>
                                 </div>
@@ -206,19 +204,16 @@
             </div>
             <img src="/frontend/resources/img/register_3.svg" alt="" class="register_3">
         </div>
-        @php
-            $slideKeyword = App\Enums\SlideEnum::TECHSTAFF;
-        @endphp
-        @if(count($slides[$slideKeyword]['item']))
+        @if($lecturers->isNotEmpty())
             <div class="panel-tech-staff">
                 <div class="uk-container uk-container-center">
                     <div class="panel-head">
                         <div class="badge wow fadeInUp" data-wow-delay="0.1s">
-                            <span>Giảng Viên</span>
+                            <span>{{ $system['text_5'] }}</span>
                         </div>
-                        <h3 class="heading-2 wow fadeInUp" data-wow-delay="0.15s"><span>{!! $slides[$slideKeyword]['name'] !!}</span></h3>
+                        <h3 class="heading-2 wow fadeInUp" data-wow-delay="0.15s"><span>{!! $system['text_6'] !!}</span></h3>
                         <div class="description wow fadeInUp" data-wow-delay="0.2s">
-                            {{ $slides[$slideKeyword]['short_code'] }}
+                            {{ $system['text_7'] }}
                         </div>
                     </div>
                     <div class="panel-body">
@@ -227,15 +222,15 @@
                                 @php
                                     $time = 0.3;
                                 @endphp
-                                @foreach($slides[$slideKeyword]['item'] as $key => $val )
+                                @foreach($lecturers as $key => $val)
                                     <div class="swiper-slide">
                                         <div class="slide-item wow fadeInUp" data-wow-delay="{{ $time * ( $key + 1) }}s">
                                             <div class="image-content">
-                                                <img src="{{ $val['image'] }}" alt="">
+                                                <img src="{{ $val->image }}" alt="">
                                             </div>
                                             <div class="text-content">
-                                                <div class="name">{{ $val['name'] }}</div>
-                                                <div class="description">{{ $val['alt'] }}</div>
+                                                <div class="name">{{ $val->name }}</div>
+                                                <div class="description">{{ $val->position }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -280,11 +275,13 @@
                                                                 $description = $val->languages->description;
                                                                 $time_post = $val->created_at;
                                                             @endphp
-                                                            <a href="{{ $canonical }}" title="" class="latest-news bl wow fadeInUp" data-wow-delay="0.2s">
-                                                                <div class="image img-cover img-zoomin">
+                                                            <div class="latest-news bl wow fadeInUp" data-wow-delay="0.2s">
+                                                                <a href="{{ $canonical }}" title="" class="image img-cover img-zoomin">
                                                                     <img src="{{ $image }}" alt="">
+                                                                </a>
+                                                                <div class="name">
+                                                                    <a href="{{ $canonical }}" title="{{ $name }}">{{ $name }}</a>
                                                                 </div>
-                                                                <div class="name">{{ $name }}</div>
                                                                 <div class="time-post">
                                                                     <img src="/frontend/resources/img/time.svg" alt="">
                                                                     <span>{{  $time_post }}</span>
@@ -292,8 +289,10 @@
                                                                 <div class="description">
                                                                     {!! $description !!}
                                                                 </div>
-                                                                <p class="rm">Đọc tiếp</p>
-                                                            </a>
+                                                                <p class="rm">
+                                                                    <a href="{{ $canonical }}" title="">Đọc tiếp</a>
+                                                                </p>
+                                                            </div>
                                                         @endif
                                                     @endforeach
                                                 @endif
@@ -312,23 +311,27 @@
                                                                 $description = $val->languages->description;
                                                                 $time_post = $val->created_at;
                                                             @endphp
-                                                            <a href="{{ $canonical }}" title="" class="latest-news bl post-item wow fadeInUp" data-wow-delay="{{ $time * ($key + 1)}}s">
+                                                            <div class="latest-news bl post-item wow fadeInUp" data-wow-delay="{{ $time * ($key + 1)}}s">
                                                                 <div class="left">
-                                                                    <div class="image img-cover img-zoomin">
+                                                                    <a href="{{ $canonical }}" title="{{ $name }}" class="image img-cover img-zoomin">
                                                                         <img src="{{ $image }}" alt="">
-                                                                    </div>
+                                                                    </a>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <div class="name">{{ $name }}</div>
+                                                                    <div class="name">
+                                                                        <a href="{{ $canonical }}" title="{{ $name }}">{{ $name }}</a>
+                                                                    </div>
                                                                     <div class="uk-flex uk-flex-middle uk-flex-space-between">
                                                                         <div class="time-post">
                                                                             <img src="/frontend/resources/img/time.svg" alt="">
                                                                             <span>{{  $time_post }}</span>
                                                                         </div>
-                                                                        <p class="rm">Đọc tiếp</p>
+                                                                        <p class="rm">
+                                                                            <a href="{{ $canonical }}" title="">Đọc tiếp</a>
+                                                                        </p>
                                                                     </div>
                                                                 </div>
-                                                            </a>
+                                                            </div>
                                                         @endif
                                                     @endforeach
                                                 @endif

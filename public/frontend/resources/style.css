@@ -730,6 +730,9 @@ ul li,ol li{
     border-radius: 5px;
     font-weight: 400;
 }
+input[name="captcha"]{
+    width: 50% !important;
+}
 @media(max-width:1024px){
     .panel-bs-courses {
         padding: 60px 0;
@@ -780,7 +783,7 @@ ul li,ol li{
         margin-bottom: 10px;
     }
 }
-@media(max-width:487px){
+@media(max-width:490px){
     .product-item .course > .uk-flex {
         display: block;
     }
@@ -792,6 +795,17 @@ ul li,ol li{
     }
     .product-item .text h4.heading-3, .product-item .price-old {
         font-size: 11px;
+    }
+    .panel-new-course .uk-width-medium-1-4,
+    .panel-bs-courses .uk-width-medium-1-4 {
+        width: 100% !important;
+    }
+    .product-item .uk-flex{
+        display: flex !important;
+    }
+    .product-item .uk-flex .total-lesson{
+        margin-bottom: 0;
+        margin-right: 6px;
     }
 }
 /*Panel-new-cource */
@@ -1215,7 +1229,7 @@ ul li,ol li{
     margin-bottom: 10px;
     text-align: justify;
 }
-.panel-news-video .latest-news .name:hover{
+.panel-news-video .latest-news a:hover{
     color: rgba(254, 200, 40, 1);
     transition: 0.5s ease all;
 }
@@ -1822,7 +1836,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover{
     font-size: 15px;
 }
 .panel-register .form-group{
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
 }
@@ -2450,7 +2464,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover{
 .form-group input[type="email"],
 .form-group input[type="password"] {
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px;
     border: none;
     border-radius: 6px;
     font-size: 14px;
@@ -2767,4 +2781,128 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover{
     .product-catalogue .uk-width-large-1-3{
         width: 50%;
     }
+}
+/*Product-detail*/
+.popup-product .badge{
+    margin-bottom: 20px;
+    width: 100px;
+    height: 25px;
+    background: rgba(254, 200, 40, 1);
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.popup-product .badge > *{
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+}
+.popup-product .product-main-title{
+    margin-bottom: 20px;
+}
+.popup-product .product-main-title > *{
+    font-size: 26px;
+    line-height: 34px;
+    font-weight: 500;
+    color: rgba(12, 74, 26, 1);
+    text-transform: uppercase;
+}
+.cources-info{
+    padding: 40px 0;
+    background: linear-gradient(90deg, #1B8643 5.54%, rgba(255, 205, 41, 0.8) 100%);
+}
+.popup-product{
+    background: rgba(255, 255, 255, 1);
+    padding: 30px 25px;
+    border-radius: 10px;
+}
+.popup-product .description {
+    margin-bottom: 20px;
+}
+.popup-product .description > *{
+    font-size: 14px;
+    line-height: 21px;
+    color: rgba(85, 85, 85, 1);
+}
+.popup-product .stats{
+    display: flex;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+.popup-product .stat-item{
+    display: flex;
+    gap:  5px;
+}
+.popup-product .stat-item span{
+    color: rgba(34, 197, 94, 1);
+}
+.popup-product .buttons{
+    display: flex;
+    gap: 25px;
+}
+.popup-product .buttons a{
+    width: 140px;
+    height: 37px;
+    display: inline-block;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.popup-product .btn-register{
+    background: rgba(255, 205, 41, 1);
+    color: #fff;
+}
+.popup-product .btn-demo{
+    background: rgba(244, 249, 244, 1);
+    color: rgba(255, 205, 41, 1);
+}
+.video.image{
+    height: 332px;
+    border-radius: 10px;
+    position: relative
+}
+.video.image img{
+    border-radius: 10px;
+}
+.video.image::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: rgba(0, 0, 0, 0.53);
+    border-radius: 10px;
+}
+.video.image  .btn-play {
+    position: absolute;
+    outline: none;
+    background: rgba(254, 200, 40, 1);
+    border: 5px solid rgba(217, 217, 217, 1);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.product-catalogue-item:hover{
+    transform: translateY(-6px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(59, 130, 246, 0.3);
+    transition: 0.2s ease all;
+}
+.panel-register .text-danger{
+    margin-top: 5px;
+    font-size: 13px;
+    color: red;
 }

@@ -66,22 +66,36 @@
                             <div class="register-form">
                                 <h2 class="heading-1"><span>Đăng ký</span></h2>
                                 <div class="subtitle">Đăng ký ngay để nhận ưu đãi từ chúng tôi</div>
-                                <form action="" method="POST" class="rf">
+                                <form action="{{ route('customer.reg') }}" method="POST" class="rf">
+                                    @csrf
+                                    <input type="hidden" name="customer_catalogue_id" value="1">
                                     <div class="form-group">
                                         <label for="name">Họ và tên</label>
-                                        <input type="text" id="name" name="name" placeholder="Họ và tên" required>
+                                        <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Họ và tên">
+                                        @error('name')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email của bạn</label>
-                                        <input type="text" id="email" name="email" placeholder="Email của bạn" required>
+                                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Email của bạn">
+                                        @error('email')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Mật khẩu</label>
-                                        <input type="text" id="password" name="password" placeholder="Mật khẩu" required>
+                                        <input type="password" id="password" name="password" placeholder="Mật khẩu">
+                                        @error('password')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="re_password">Xác nhận mật khẩu</label>
-                                        <input type="text" id="re_password" name="re_password" placeholder="Xác nhận mật khẩu" required>
+                                        <input type="password" id="re_password" name="re_password" placeholder="Xác nhận mật khẩu">
+                                        @error('re_password')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <p class="condition">
                                         Bằng cách đăng ký, bạn đã đồng ý với 
