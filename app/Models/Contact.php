@@ -20,7 +20,8 @@ class Contact extends Model
         'post_id',
         'publish',
         'created_at',
-        'type'
+        'type',
+        'message'
     ];
 
     protected $table = 'contacts';

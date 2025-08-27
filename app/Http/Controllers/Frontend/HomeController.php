@@ -12,7 +12,7 @@ use App\Enums\SlideEnum;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\PostServiceInterface as PostService;
 use App\Models\Post;
-
+use App\Models\Lecturer;
 
 class HomeController extends FrontendController
 {
@@ -52,11 +52,12 @@ class HomeController extends FrontendController
 
         $widgets = $this->widgetService->getWidget([
             ['keyword' => 'product-catalogue', 'object' => true],
-            ['keyword' => 'best-selling-course', 'object' => true, 'promotion' => true],
+            ['keyword' => 'best-selling-course', 'children' => true, 'object' => true, 'promotion' => true],
             ['keyword' => 'new-course-launch', 'object' => true, 'promotion' => true],
             ['keyword' => 'news', 'object' => true],
             ['keyword' => 'videos', 'object' => true],
         ], $this->language);
+
 
         $slides = $this->slideService->getSlide(
             [SlideEnum::MAIN, SlideEnum::TECHSTAFF, SlideEnum::PARTNER],

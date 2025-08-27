@@ -92,6 +92,7 @@ Route::get('/ajax/projects', [HomeController::class, 'ajaxProject'])->name('home
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 Route::get('lien-he.html', [FeContactController::class, 'index'])->name('contact.index');
+Route::post('ajax/contact/saveContact', [FeContactController::class, 'save'])->name('ajax.contact.save');
 
 Route::get('crawler', [CrawlerController::class, 'index'])->name('crawler.index');
 

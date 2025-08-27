@@ -6,6 +6,8 @@ use App\Http\Controllers\FrontendController;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\WidgetServiceInterface  as WidgetService;
 use Jenssegers\Agent\Facades\Agent;
+use Illuminate\Support\Facades\DB;
+use App\Models\Contact;
 
 class ContactController extends FrontendController
 {
@@ -42,6 +44,22 @@ class ContactController extends FrontendController
             'seo',
             'system',
         ));
+    }
+
+    public function save(Request $request){
+        try {
+            DB::beginTransaction();
+            $payload = $request->only(['email', 'name', 'phone', 'address', 'message']);
+            Contact::create($payload);
+            DB::commit();
+            return response()->json([
+                'message' => 'success',
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+        
     }
 
     private function config(){

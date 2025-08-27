@@ -14,7 +14,7 @@
                                 $time = 1;
                             @endphp
                             @foreach($widgets['product-catalogue']->object as $key => $val)
-                                <div class="uk-width-large-1-4">
+                                <div class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-4">
                                     @php
                                         $image = $val->image;
                                         $name = $val->languages->name;
@@ -95,16 +95,16 @@
                                 </div>
                             </div>
                             <div class="uk-width-medium-1-2">
-                                @if(count($widgets['new-course-launch']->object))
+                                @if(!is_null($widgets['product-catalogue']->object))
                                     <div class="filter-category">
                                         <ul class="uk-list uk-clearfix uk-flex uk-flex-middle">
                                             <li class="active all">
                                                 <span>Tất cả</span>
                                             </li>
-                                            @foreach($widgets['new-course-launch']->object as $key => $val)
+                                            @foreach($widgets['product-catalogue']->object as $key => $val)
                                                 @php
-                                                    $ct_id = $val->product_catalogues[0]->id;
-                                                    $ct_name = $val->product_catalogues[0]->languages->name;
+                                                    $ct_id = $val->id;
+                                                    $ct_name = $val->languages->name;
                                                 @endphp
                                                 <li data-product-catalogue-id="{{ $ct_id }}"><span>{{ $ct_name }}</span></li>
                                             @endforeach
@@ -167,25 +167,25 @@
                             <form action="" method="POST" class="register-form">
                                 <div class="form-group">
                                     <label class="form-label" for="email">Email</label>
-                                    <input type="text" name="email" value="" class="form-input" id="email" placeholder="Nhập vào email của bạn *" required>
+                                    <input type="text" name="email" value="" class="form-input" id="reg_email" placeholder="Nhập vào email của bạn *" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="name">Họ tên</label>
-                                    <input type="text" name="name" value="" class="form-input" id="name" placeholder="Nhập vào họ tên của bạn *" required>
+                                    <input type="text" name="name" value="" class="form-input" id="reg_name" placeholder="Nhập vào họ tên của bạn *" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="phone">Số điện thoại</label>
-                                    <input type="text" name="phone" value="" class="form-input" id="phone" placeholder="Nhập vào số điện thoại của bạn *" required>
+                                    <input type="text" name="phone" value="" class="form-input" id="reg_phone" placeholder="Nhập vào số điện thoại của bạn *" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="product_id">Khóa học quan tâm</label>
-                                    <input type="text" name="product_id" value="" class="form-input" id="product_id" placeholder="Nhập vào tên khóa học bạn quan tâm *" required>
+                                    <input type="text" name="product_id" value="" class="form-input" id="reg_product_name" placeholder="Nhập vào tên khóa học bạn quan tâm *" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="message">Lời nhắn</label>
-                                    <textarea name="message" class="form-input" id="message" cols="30" rows="10" placeholder="Lời nhắn của bạn *"></textarea>
+                                    <textarea name="message" class="form-input" id="reg_message" cols="30" rows="10" placeholder="Lời nhắn của bạn *"></textarea>
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label class="form-label" for="captcha">Mã xác thực</label>
                                     <div class="captcha-container">
                                         <input type="text" name="captcha" class="form-input captcha-input" id="captcha" placeholder="Nhập mã xác thực" required>
@@ -193,7 +193,7 @@
                                             397x67.93<span class="refresh-icon">🔄</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <button type="submit" class="register-btn" id="">
                                     Đăng ký ngay
                                 </button>
@@ -341,7 +341,9 @@
                                 </div>
                             </div>
                         @endif
+                        {{-- @dd($widgets['videos']) --}}
                         @if(isset($widgets['videos']) && !is_null($widgets['videos']))
+                            @foreach($widgets['videos']->object as $key => $video)
                             <div class="uk-width-medium-1-3">
                                 @php
                                     $ct_name = $widgets['videos']->name;
@@ -353,17 +355,18 @@
                                         </h3>
                                     </div>
                                     <div class="panel-body">
-                                        @if(count($widgets['videos']->object))
+                                        @if(count($video->posts))
                                             <div class="swiper-container">
                                                 <div class="swiper-wrapper">
-                                                    @foreach($widgets['videos']->object as $key => $val)
+                                                    @foreach($video->posts as $key => $val)
+                                                        @if($key > 0) @break @endif
+                                                        @php
+                                                            $image = $val->image;
+                                                            // $video = $val->video;
+                                                        @endphp
                                                         <div class="swiper-slide">
-                                                            @php
-                                                                $image = $val->image;
-                                                                $video = $val->video;
-                                                            @endphp
-                                                            <div class="slide-item">
-                                                                <a href="{{ $video }}" class="image img-cover wow fadeInUp" data-wow-delay="0.2s" target="_blank">
+                                                            <div class="slide-item video-item video-feature">
+                                                                <a data-video="{{ json_encode($val->video) }}" class="image img-cover wow fadeInUp preview-video" data-wow-delay="0.2s" target="_blank">
                                                                     <img src="{{ $image }}" alt="">
                                                                     <button class="btn-play">
                                                                         <img src="/frontend/resources/img/play.svg" alt="">
@@ -374,10 +377,30 @@
                                                     @endforeach
                                                 </div>
                                             </div>
+                                            <ul class="uk-list uk-clearfix thumb-video">
+                                                 @foreach($video->posts as $key => $val)
+                                                    @if($key === 0) @continue @endif
+                                                    @if($key > 4) @break @endif
+                                                    @php
+                                                        $name = $val->languages[0]->name;
+                                                    @endphp
+                                                <li>
+                                                    <div class="thumb-video-item uk-flex uk-flex-middle">
+                                                        <a class="uk-flex uk-flex-middle preview-video" data-video="{{ json_encode($val->video) }}">
+                                                            <span class="image img-cover">
+                                                                <img src="{{ $val->image }}" alt="">
+                                                            </span>
+                                                            <span>{{ $name }}</span>
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                                @endforeach
+                                            </ul>
                                         @endif
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
                         @endif
                     </div>
                 </div>

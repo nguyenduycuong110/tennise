@@ -828,6 +828,72 @@
 		});
     }
 
+    HT.register = () => {
+        $('.register-form').on('submit', function(e){
+            e.preventDefault()
+            let _this = $(this)
+            let option = {
+                'email' : $('#reg_email').val(),
+                'name' : $('#reg_name').val(),
+                'phone' : $('#reg_phone').val(),
+                'message' : $('#reg_message').val() + "<br>" + `Khóa học quan tâm: ${$('#reg_product_name').val()}`,
+                '_token' : _token
+            }
+
+            $.ajax({
+                url: 'ajax/contact/saveContact', 
+                type: 'POST', 
+                data: option,
+                dataType: 'json', 
+                beforeSend: function() {
+                    // console.log(1234);
+                    _this.find('.register-btn').html('Đang gửi dữ liệu...').attr('disabled', true)
+                    // return false
+                    
+                },
+                success: function(res) {
+                    let inputValue = ((option.value == 1)?2:1)
+                    if(res.flag == true){
+                        _this.val(inputValue)
+                    }
+                    _this.find('.register-btn').html('Đăng ký ngay').removeAttr('disabled')
+                    alert('Gửi thông tin liên hệ thành công. Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất')
+                    _this[0].reset()
+                  
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                  
+                  console.log('Lỗi: ' + textStatus + ' ' + errorThrown);
+                }
+            });
+            
+        })
+    }
+
+    HT.previewVideo = () => {
+        $('.preview-video').on('click', function(e){
+            e.preventDefault()
+            let _this = $(this)
+            let video = JSON.parse(_this.attr('data-video'))
+            
+            // Parse iframe và thêm autoplay
+            let $iframe = $(video)
+            let src = $iframe.attr('src')
+            
+            if (src) {
+                // Thêm autoplay parameter
+                let separator = src.includes('?') ? '&' : '?'
+                let newSrc = src + separator + 'autoplay=1'
+                
+                // Có thể thêm thêm parameters khác
+                newSrc += '&mute=1' // Mute để tránh browser block autoplay
+                
+                $iframe.attr('src', newSrc)
+            }
+            
+            $('.video-feature').html($iframe[0].outerHTML)
+        })
+    }
 
 	$(document).ready(function(){
         HT.whyChoose()
@@ -857,6 +923,10 @@
 		HT.wrapTable()
         HT.service()
         HT.skeleton()
+
+        /** ACTION  */
+        HT.register()
+        HT.previewVideo()
 
         // $(window).on('load', function() {
         //     HT.swiper();
