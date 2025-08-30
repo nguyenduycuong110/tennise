@@ -1,85 +1,5 @@
 <div id="header" class="pc-header uk-visible-large">
-    <div class="header-upper">
-        <div class="uk-container uk-container-center">
-            <div class="uk-flex uk-flex-middle uk-flex-space-between">
-                <div class="contact-info">
-                    <div class="uk-flex uk-flex-middle">
-                        <a href="mailto:{{ $system['contact_email'] }}" title="Mail" class="mail wow fadeInLeft" data-wow-delay="0.1s">
-                            <img src="/frontend/resources/img/email.svg" alt="mail">
-                            <span>{{ $system['contact_email'] }}</span>
-                        </a>
-                        <a href="tel:{{ $system['contact_hotline'] }}" title="Hotline" class="hotline wow fadeInLeft" data-wow-delay="0.2s">
-                            <img src="/frontend/resources/img/phone.svg" alt="phone">
-                            <span>{{ $system['contact_hotline'] }}</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="company_address">
-                    <div class="uk-flex uk-flex-middle">
-                        <a href="" class="address wow fadeInLeft" target="_blank" title="Address" data-wow-delay="0.3s">
-                            <img src="/frontend/resources/img/address.svg" alt="address">
-                            <span>{{ $system['contact_office'] }}</span>
-                        </a>
-                        <ul class="social uk-flex uk-flex-middle uk-clearfix">
-                            <li>
-                                <a href="{{ $system['social_facebook'] }}" class="facebook wow fadeInLeft" data-wow-delay="0.325s" title="Facebook" target="_blank">
-                                    <img src="/frontend/resources/img/facebook.svg" alt="facebook">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ $system['social_google'] }}" class="google wow fadeInLeft" data-wow-delay="0.35s" title="Google" target="_blank">
-                                    <img src="/frontend/resources/img/google.svg" alt="google">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ $system['social_tiktok'] }}" class="tiktok wow fadeInLeft" data-wow-delay="0.375s" title="Tiktok" target="_blank">
-                                    <img src="/frontend/resources/img/tiktok.svg" alt="tiktok">
-                                </a>
-                            </li>
-                            <li>    
-                                <a href="{{ $system['social_twitter'] }}" class="twitter wow fadeInLeft" data-wow-delay="0.4s" title="Twitter" target="_blank">
-                                    <img src="/frontend/resources/img/twitter.svg" alt="twitter">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="header-lower" data-uk-sticky="">
-        <div class="uk-container uk-container-center">
-            <div class="uk-flex uk-flex-middle uk-flex-space-between">
-                <a href="" title="Logo" class="image img-cover logo wow fadeInUp" data-wow-delay="0.2s">
-                    <img src="/userfiles/image/logo/fda2321c2a05e3817530300b48691773fa26fd98.png" alt="logo">
-                    <span>{!! $system['homepage_brand'] !!}</span>
-                </a>
-                @include('frontend.component.navigation')
-                <div class="search wow fadeInUp" data-wow-delay="0.3S">
-                    <form action="tim-kiem" class="form-search">
-                        <input type="text" name="keyword" value="" placeholder="Nhập từ khóa muốn tìm kiếm ?">
-                        <button type="submit" class="btn-search">
-                            <img src="/frontend/resources/img/search.svg" alt="">
-                        </button>
-                    </form>
-                </div>
-                <div class="toolbox">
-                    <div class="uk-flex uk-flex-middle uk-flex-space-between">
-                        <a href="{{ write_url('gio-hang') }}" title="" class="toolbox-item cart wow fadeInUp" data-wow-delay="0.35s">
-                            <img src="/frontend/resources/img/cart.svg" alt="">
-                            <span class="count">0</span>
-                        </a>
-                        <a href="#modal-login" title="Đăng nhập" class="toolbox-item login wow fadeInUp" data-wow-delay="0.4s" data-uk-modal>
-                            <img src="/frontend/resources/img/login.svg" alt="Đăng nhập">
-                        </a>
-                        <a href="{{ route('customer.register') }}" title="" class="toolbox-item register wow fadeInUp" data-wow-delay="0.45s">
-                            <span>Đăng ký ngay</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 <div class="mobile-header uk-hidden-large">
@@ -163,5 +83,3 @@
 		@endif
 	</div>
 </div>
-
-@include('frontend.auth.index')

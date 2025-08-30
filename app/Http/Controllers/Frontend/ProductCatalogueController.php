@@ -9,7 +9,6 @@ use App\Services\Interfaces\ProductCatalogueServiceInterface as ProductCatalogue
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
 use App\Services\Interfaces\WidgetServiceInterface as WidgetService;
 use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
-use App\Repositories\Interfaces\LecturerRepositoryInterface as LecturerRepository;
 use Cart;
 use Jenssegers\Agent\Facades\Agent;
 
@@ -22,14 +21,12 @@ class ProductCatalogueController extends FrontendController
     protected $productService;
     protected $widgetService;
     protected $productRepository;
-    protected $lecturerRepository;
-
+    
     public function __construct(
         ProductCatalogueRepository $productCatalogueRepository,
         ProductCatalogueService $productCatalogueService,
         ProductService $productService,
         ProductRepository $productRepository,
-        LecturerRepository $lecturerRepository,
         WidgetService $widgetService,
     ) {
         $this->productCatalogueRepository = $productCatalogueRepository;
@@ -37,7 +34,6 @@ class ProductCatalogueController extends FrontendController
         $this->productService = $productService;
         $this->widgetService = $widgetService;
         $this->productRepository = $productRepository;
-        $this->lecturerRepository = $lecturerRepository;
         parent::__construct();
     }
 
@@ -72,8 +68,6 @@ class ProductCatalogueController extends FrontendController
 
         $products = $this->combineProductValues($products);
 
-        $lecturers = $this->lecturerRepository->all();
-
         $config = $this->config();
 
         $widgets = $this->widgetService->getWidget([
@@ -105,7 +99,6 @@ class ProductCatalogueController extends FrontendController
             'filters',
             'widgets',
             'schema',
-            'lecturers'
         ));
     }
 

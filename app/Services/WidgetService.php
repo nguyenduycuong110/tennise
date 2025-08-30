@@ -515,8 +515,6 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 
         if ($objectModel === 'product') {
             $sql .= ",
-                    l.name as lecturer_name,
-                    l.image as lecturer_image,
                     COUNT(DISTINCT r.id) as review_count,
                     COALESCE(AVG(r.score), 0) as review_average,
                     GROUP_CONCAT(DISTINCT pv.id) as variant_ids
@@ -536,7 +534,6 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 
         if ($objectModel === 'product') {
             $sql .= "
-                    LEFT JOIN lecturers l ON o.lecturer_id = l.id
                     LEFT JOIN reviews r ON o.id = r.reviewable_id AND r.reviewable_type = 'App\\\\Models\\\\Product'
                     LEFT JOIN product_variants pv ON o.id = pv.product_id
                 ";
@@ -664,8 +661,6 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 
         if ($model === 'Product') {
             $sql .= ",
-                l.name as lecturer_name,
-                l.image as lecturer_image,
                 COUNT(DISTINCT r.id) as review_count,
                 COALESCE(AVG(r.score), 0) as review_average
             ";
@@ -682,7 +677,6 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 
         if ($model === 'Product') {
             $sql .= "
-                LEFT JOIN lecturers l ON o.lecturer_id = l.id
                 LEFT JOIN reviews r ON o.id = r.reviewable_id AND r.reviewable_type = 'App\\\\Models\\\\Product'
             ";
         }

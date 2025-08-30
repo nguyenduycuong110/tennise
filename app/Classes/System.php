@@ -128,29 +128,29 @@ class System{
             ]
         ];
 
-        $data['background'] = [
-            'label' => 'Cấu hình background',
-            'description' => '',
-            'value' => [
-                '1' => ['type' => 'images', 'label' => 'Background (banner)'],
-                '2' => ['type' => 'images', 'label' => 'Background (đăng ký)'],
-                '3' => ['type' => 'images', 'label' => 'Background (logo)'],
-            ]
-        ];
+        // $data['background'] = [
+        //     'label' => 'Cấu hình background',
+        //     'description' => '',
+        //     'value' => [
+        //         '1' => ['type' => 'images', 'label' => 'Background (banner)'],
+        //         '2' => ['type' => 'images', 'label' => 'Background (đăng ký)'],
+        //         '3' => ['type' => 'images', 'label' => 'Background (logo)'],
+        //     ]
+        // ];
 
-        $data['text'] = [
-            'label' => 'Cấu hình text',
-            'description' => '',
-            'value' => [
-                '1' => ['type' => 'text', 'label' => 'Text_1'],
-                '2' => ['type' => 'text', 'label' => 'Text_2'],
-                '3' => ['type' => 'textarea', 'label' => 'Text_3'],
-                '4' => ['type' => 'text', 'label' => 'Text_4'],
-                '5' => ['type' => 'text', 'label' => 'Text_5'],
-                '6' => ['type' => 'textarea', 'label' => 'Text_6'],
-                '7' => ['type' => 'text', 'label' => 'Text_7'],
-            ]
-        ];
+        // $data['text'] = [
+        //     'label' => 'Cấu hình text',
+        //     'description' => '',
+        //     'value' => [
+        //         '1' => ['type' => 'text', 'label' => 'Text_1'],
+        //         '2' => ['type' => 'text', 'label' => 'Text_2'],
+        //         '3' => ['type' => 'textarea', 'label' => 'Text_3'],
+        //         '4' => ['type' => 'text', 'label' => 'Text_4'],
+        //         '5' => ['type' => 'text', 'label' => 'Text_5'],
+        //         '6' => ['type' => 'textarea', 'label' => 'Text_6'],
+        //         '7' => ['type' => 'text', 'label' => 'Text_7'],
+        //     ]
+        // ];
        
 
 

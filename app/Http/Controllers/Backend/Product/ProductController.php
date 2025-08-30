@@ -9,7 +9,6 @@ use App\Services\Interfaces\ProductServiceInterface  as ProductService;
 use App\Repositories\Interfaces\ProductRepositoryInterface  as ProductRepository;
 use App\Repositories\Interfaces\AttributeRepositoryInterface  as AttributeRepository;
 use App\Repositories\Interfaces\AttributeCatalogueRepositoryInterface  as AttributeCatalogueRepository;
-use App\Repositories\Interfaces\LecturerRepositoryInterface  as LecturerRepository;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Classes\Nestedsetbie;
@@ -23,14 +22,12 @@ class ProductController extends Controller
     protected $language;
     protected $attributeCatalogue;
     protected $attributeRepository;
-    protected $lecturerRepository;
 
     public function __construct(
         ProductService $productService,
         ProductRepository $productRepository,
         AttributeCatalogueRepository $attributeCatalogue,
         AttributeRepository $attributeRepository,
-        LecturerRepository $lecturerRepository,
     ){
         $this->middleware(function($request, $next){
             $locale = app()->getLocale(); // vn en cn
@@ -44,7 +41,6 @@ class ProductController extends Controller
         $this->productRepository = $productRepository;
         $this->attributeCatalogue = $attributeCatalogue;
         $this->attributeRepository = $attributeRepository;
-        $this->lecturerRepository = $lecturerRepository;
         $this->initialize();
         
     }
@@ -75,7 +71,6 @@ class ProductController extends Controller
     public function create(){
         $this->authorize('modules', 'product.create');
         $attributeCatalogue = $this->attributeCatalogue->getAll($this->language);
-        $lecturers = $this->lecturerRepository->all();
         $config = $this->configData();
         $config['seo'] = __('messages.product');
         $config['method'] = 'create';
@@ -86,7 +81,6 @@ class ProductController extends Controller
             'dropdown',
             'config',
             'attributeCatalogue',
-            'lecturers'
         ));
     }
 
@@ -100,7 +94,6 @@ class ProductController extends Controller
     public function edit($id, Request $request){
         $this->authorize('modules', 'product.update');
         $product = $this->productRepository->getProductById($id, $this->language);
-        $lecturers = $this->lecturerRepository->all();
         $attributeCatalogue = $this->attributeCatalogue->getAll($this->language);
         $queryUrl = $request->getQueryString();
         $config = $this->configData();
@@ -117,7 +110,6 @@ class ProductController extends Controller
             'album',
             'attributeCatalogue',
             'queryUrl',
-            'lecturers'
         ));
     }
 

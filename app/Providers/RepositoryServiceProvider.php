@@ -46,7 +46,6 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Repositories\Interfaces\ConstructRepositoryInterface' => 'App\Repositories\ConstructRepository',
         'App\Repositories\Interfaces\VoucherRepositoryInterface' => 'App\Repositories\VoucherRepository',
         'App\Repositories\Interfaces\ContactRepositoryInterface' => 'App\Repositories\ContactRepository',
-        'App\Repositories\Interfaces\LecturerRepositoryInterface' => 'App\Repositories\LecturerRepository',
     ];
 
     public function register(): void

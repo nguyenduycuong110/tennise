@@ -37,8 +37,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'products.attributeCatalogue',
                 'products.attribute',
                 'products.variant',
-                'products.total_lesson',
-                'products.duration',
                 'tb2.name',
                 'tb2.description',
                 'tb2.content',
@@ -46,12 +44,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'tb2.meta_keyword',
                 'tb2.meta_description',
                 'tb2.canonical',
-                'tb3.name as lecturer_name',
-                'tb3.image as lecturer_image',
             ]
         )
         ->join('product_language as tb2', 'tb2.product_id', '=','products.id')
-        ->join('lecturers as tb3', 'tb3.id', '=','products.lecturer_id')
         ->with([
             'product_catalogues',
             'product_variants' => function ($query) use ($language_id) {
@@ -273,21 +268,16 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             'products.id',
             'products.price', 
             'products.image',
-            'products.total_lesson',
-            'products.duration',
             'tb2.name',
             'tb2.canonical',
             'tb2.description', 
             'tb2.content',
             'tb2.meta_title',
-            'tb3.name as lecturer_name',
-            'tb3.image as lecturer_avatar'
         ])
         ->whereHas('product_catalogues', function ($query) use ($productCatalogue) {
             $query->where('product_catalogue_id', $productCatalogue);
         })
         ->join('product_language as tb2', 'tb2.product_id', '=','products.id')
-        ->leftJoin('lecturers as tb3','tb3.id', '=', 'products.lecturer_id')
         ->where('tb2.language_id', '=', $language_id)
         ->get();
         return $products;

@@ -24,8 +24,6 @@ use App\Http\Controllers\Backend\Promotion\PromotionController;
 use App\Http\Controllers\Backend\ReviewController;
 use App\Http\Controllers\Backend\VoucherController;
 use App\Http\Controllers\Backend\ContactController;
-use App\Http\Controllers\Backend\LecturerController;
-use App\Http\Controllers\Backend\IntroduceController;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\AttributeController as AjaxAttributeController;
 use App\Http\Controllers\Ajax\MenuController as AjaxMenuController;
@@ -423,26 +421,6 @@ Route::group(['middleware' => ['admin','locale','backend_default_locale']], func
         Route::delete('{id}/destroy', [ContactController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('contact.destroy');
     });
    
-    Route::group(['prefix' => 'lecturer'], function () {
-        Route::get('index', [LecturerController::class, 'index'])->name('lecturer.index');
-        Route::get('create', [LecturerController::class, 'create'])->name('lecturer.create');
-        Route::post('store', [LecturerController::class, 'store'])->name('lecturer.store');
-        Route::get('{id}/edit', [LecturerController::class, 'edit'])->where(['id' => '[0-9]+'])->name('lecturer.edit');
-        Route::post('{id}/update', [LecturerController::class, 'update'])->where(['id' => '[0-9]+'])->name('lecturer.update');
-        Route::get('{id}/delete', [LecturerController::class, 'delete'])->where(['id' => '[0-9]+'])->name('lecturer.delete');
-        Route::delete('{id}/destroy', [LecturerController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('lecturer.destroy');
-    });
-    
-    Route::group(['prefix' => 'introduce'], function () {
-        Route::get('index', [IntroduceController::class, 'index'])->name('introduce.index');
-        Route::get('create', [IntroduceController::class, 'create'])->name('introduce.create');
-        Route::post('store', [IntroduceController::class, 'store'])->name('introduce.store');
-        Route::get('{id}/edit', [IntroduceController::class, 'edit'])->where(['id' => '[0-9]+'])->name('introduce.edit');
-        Route::post('{id}/update', [IntroduceController::class, 'update'])->where(['id' => '[0-9]+'])->name('introduce.update');
-        Route::get('{id}/delete', [IntroduceController::class, 'delete'])->where(['id' => '[0-9]+'])->name('introduce.delete');
-        Route::delete('{id}/destroy', [IntroduceController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('introduce.destroy');
-    });
-
    /* AJAX */
   
    Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->name('ajax.dashboard.changeStatus');

@@ -30,9 +30,6 @@ class Product extends Model
         'warranty',
         'check',
         'seller_id',
-        'total_lesson',
-        'duration',
-        'lecturer_id'
     ];
 
     protected $casts = [
@@ -91,8 +88,5 @@ class Product extends Model
         return $this->belongsTo(Customer::class, 'seller_id', 'id');
     }
 
-    public function lecturers(){
-        return $this->belongsTo(Lecturer::class, 'lecturer_id', 'id');
-    }
     
 }

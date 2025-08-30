@@ -16,8 +16,6 @@ use App\Repositories\Interfaces\VoucherRepositoryInterface as VoucherRepository;
 use App\Services\Interfaces\WidgetServiceInterface as WidgetService;
 use Illuminate\Support\Facades\Auth;
 use Cart;
-use Jenssegers\Agent\Facades\Agent;
-use Illuminate\Support\Facades\DB;
 
 class ProductController extends FrontendController
 {

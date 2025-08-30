@@ -9,7 +9,6 @@ use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
 use App\Repositories\Interfaces\ProductVariantLanguageRepositoryInterface as ProductVariantLanguageRepository;
 use App\Repositories\Interfaces\ProductVariantAttributeRepositoryInterface as ProductVariantAttributeRepository;
 use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
-use App\Repositories\Interfaces\LecturerRepositoryInterface as LecturerRepository;
 use App\Repositories\Interfaces\AttributeCatalogueRepositoryInterface as AttributeCatalogueRepository;
 use App\Repositories\Interfaces\AttributeRepositoryInterface as AttributeRepository;
 use App\Services\Interfaces\ProductCatalogueServiceInterface as ProductCatalogueService;
@@ -32,7 +31,6 @@ class ProductService extends BaseService implements ProductServiceInterface
     protected $productVariantLanguageRepository;
     protected $productVariantAttributeRepository;
     protected $promotionRepository;
-    protected $lecturerRepository;
     protected $attributeCatalogueRepository;
     protected $attributeRepository;
     protected $productCatalogueService;
@@ -43,13 +41,11 @@ class ProductService extends BaseService implements ProductServiceInterface
         ProductVariantLanguageRepository $productVariantLanguageRepository,
         ProductVariantAttributeRepository $productVariantAttributeRepository,
         PromotionRepository $promotionRepository,
-        LecturerRepository $lecturerRepository,
         AttributeCatalogueRepository $attributeCatalogueRepository,
         AttributeRepository $attributeRepository,
         ProductCatalogueService $productCatalogueService,
     ){
         $this->productRepository = $productRepository;
-        $this->lecturerRepository = $lecturerRepository;
         $this->routerRepository = $routerRepository;
         $this->promotionRepository = $promotionRepository;
         $this->productVariantLanguageRepository = $productVariantLanguageRepository;
@@ -353,9 +349,6 @@ class ProductService extends BaseService implements ProductServiceInterface
             'products.image',
             'products.order',
             'products.price',
-            'products.lecturer_id',
-            'products.total_lesson',
-            'products.duration',
             'tb2.name', 
             'tb2.canonical',
         ];

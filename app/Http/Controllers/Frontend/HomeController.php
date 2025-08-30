@@ -5,20 +5,17 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\FrontendController;
 use App\Repositories\Interfaces\SlideRepositoryInterface as SlideRepository;
 use App\Repositories\Interfaces\SystemRepositoryInterface as SystemRepository;
-use App\Repositories\Interfaces\LecturerRepositoryInterface as LecturerRepository;
 use App\Services\Interfaces\WidgetServiceInterface as WidgetService;
 use App\Services\Interfaces\SlideServiceInterface as SlideService;
 use App\Enums\SlideEnum;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\PostServiceInterface as PostService;
 use App\Models\Post;
-use App\Models\Lecturer;
 
 class HomeController extends FrontendController
 {
     protected $language;
     protected $slideRepository;
-    protected $lecturerRepository;
     protected $systemRepository;
     protected $widgetService;
     protected $slideService;
@@ -27,14 +24,12 @@ class HomeController extends FrontendController
 
     public function __construct(
         SlideRepository $slideRepository,
-        LecturerRepository $lecturerRepository,
         WidgetService $widgetService,
         SlideService $slideService,
         SystemRepository $systemRepository,
         PostService $postService,
     ) {
         $this->slideRepository = $slideRepository;
-        $this->lecturerRepository = $lecturerRepository;
         $this->widgetService = $widgetService;
         $this->slideService = $slideService;
         $this->systemRepository = $systemRepository;
@@ -64,8 +59,6 @@ class HomeController extends FrontendController
             $this->language
         );
 
-        $lecturers = $this->lecturerRepository->all();
-
         $system = $this->system;
 
         $seo = [
@@ -93,7 +86,6 @@ class HomeController extends FrontendController
             'language',
             'ishome',
             'schema',
-            'lecturers'
         ));
     }
 
